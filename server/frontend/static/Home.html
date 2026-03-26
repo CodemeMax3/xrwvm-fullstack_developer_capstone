@@ -143,12 +143,24 @@
     <script>
         // Modernized Logout
         const logout = async () => {
-            sessionStorage.removeItem("username");
-            // If you have a backend logout endpoint:
-            // await fetch('/logout', { method: 'POST' });
-            window.location.href = "/";
-        };
+    let logout_url = window.location.origin + "/djangoapp/logout";
 
+    const res = await fetch(logout_url, {
+        method: "GET",
+    });
+
+    const json = await res.json();
+
+    if (json) {
+        let username = sessionStorage.getItem("username");
+        sessionStorage.removeItem("username");
+        window.location.href = window.location.origin;
+        window.location.reload();
+        alert("Logging out " + username + "...");
+    } else {
+        alert("The user could not be logged out.");
+    }
+};
         const checkSession = () => {
             const curr_user = sessionStorage.getItem("username");
             const target = document.getElementById("loginlogout");
