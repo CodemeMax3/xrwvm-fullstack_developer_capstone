@@ -15,52 +15,64 @@ logger = logging.getLogger(__name__)
 # ------------------ LOGIN ------------------
 @csrf_exempt
 def login_user(request):
-    data = json.loads(request.body)
-    username = data['userName']
-    password = data['password']
+    if request.method == "POST":
+        data = json.loads(request.body)
+        username = data['userName']
+        password = data['password']
 
-    user = authenticate(username=username, password=password)
-    data = {"userName": username}
+        user = authenticate(username=username, password=password)
+        response = {"userName": username}
 
-    if user is not None:
-        login(request, user)
-        data = {"userName": username, "status": "Authenticated"}
+        if user is not None:
+            login(request, user)
+            response = {"userName": username, "status": "Authenticated"}
 
-    return JsonResponse(data)
+        return JsonResponse(response)
+
+    return JsonResponse({"error": "Invalid request"})
 
 
 # ------------------ LOGOUT ------------------
 @csrf_exempt
 def logout_request(request):
     logout(request)
-    data = {"userName": ""}
-    return JsonResponse(data)
+    return JsonResponse({"userName": ""})
 
 
 # ------------------ REGISTRATION ------------------
 @csrf_exempt
 def registration(request):
-    data = json.loads(request.body)
-    username = data['userName']
-    password = data['password']
-    first_name = data.get('firstName', '')
-    last_name = data.get('lastName', '')
+    if request.method == "POST":
+        data = json.loads(request.body)
+        username = data['userName']
+        password = data['password']
+        first_name = data.get('firstName', '')
+        last_name = data.get('lastName', '')
+        email = data.get('email', '')
 
-    try:
-        user = User.objects.get(username=username)
-        return JsonResponse({"userName": username, "error": "Already Exists"})
-    except:
-        user = User.objects.create_user(
-            username=username,
-            password=password,
-            first_name=first_name,
-            last_name=last_name
-        )
-        user.save()
-        return JsonResponse({"userName": username})
+        try:
+            User.objects.get(username=username)
+            return JsonResponse({"userName": username, "error": "Already Registered"})
+        except:
+            user = User.objects.create_user(
+                username=username,
+                password=password,
+                first_name=first_name,
+                last_name=last_name,
+                email=email
+            )
+
+            login(request, user)
+
+            return JsonResponse({
+                "userName": username,
+                "status": "Authenticated"
+            })
+
+    return JsonResponse({"error": "Invalid request"})
 
 
-# ------------------ HOME / DEALERS ------------------
+# ------------------ HOME ------------------
 def get_dealerships(request):
     return render(request, "Home.html")
 

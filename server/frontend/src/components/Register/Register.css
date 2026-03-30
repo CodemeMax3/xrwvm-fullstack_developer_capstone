@@ -63,3 +63,93 @@
   text-align:center;
   box-shadow: 2px 2px 3px #999;  
 }
+/* Background */
+.register_bg {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+}
+
+/* Glass effect */
+.glass {
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 40px;
+  width: 400px;
+  box-shadow: 0 0 40px rgba(0,255,255,0.2);
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  color: #00eaff;
+  font-size: 24px;
+}
+
+/* Close button */
+.close_btn {
+  width: 25px;
+  cursor: pointer;
+  filter: invert(1);
+}
+
+/* Inputs */
+.input_group {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+  background: rgba(255,255,255,0.1);
+  padding: 10px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.input_group:hover {
+  box-shadow: 0 0 10px #00eaff;
+}
+
+.input_group img {
+  width: 20px;
+  margin-right: 10px;
+}
+
+.input_group input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  width: 100%;
+}
+
+/* Button */
+.submit_btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #00eaff, #007cf0);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit_btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00eaff;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
